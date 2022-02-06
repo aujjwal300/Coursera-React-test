@@ -29,7 +29,7 @@ class DishDetail extends Component {
                 return (
                     <li key={comment.id}>
                         <div className="mt-3">{comment.comment}</div>
-                        <div className="mt-2">-- {comment.author}, {comment.date}</div>
+                        <p className="mt-2">-- {comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
                     </li>
                 );
             });
@@ -48,15 +48,25 @@ class DishDetail extends Component {
         }
     }
 
-    render(props) {
-        return <div className='row'>
-            <div className='col-12 col-md-5 m-1'>   
-                {this.renderDish(this.props.selectedDish)}
+    render() {
+        const dish = this.props.dish
+
+        if (dish == null) {
+            return (<div></div>);
+        }
+        
+        const dishItem = this.renderDish(dish);
+        const dishComment = this.renderComments(dish);
+        return <div className='container'>
+                <div className='row'>
+                    <div className='col-12 col-md-5 m-1'>   
+                        {dishItem}
+                    </div>
+                    <div className='col-12 col-md-5 m-1'>   
+                        {dishComment}
+                    </div>
+                </div>
             </div>
-            <div className='col-12 col-md-5 m-1'>   
-                {this.renderComments(this.props.selectedDish)}
-            </div>
-        </div>
     }
 }
 
