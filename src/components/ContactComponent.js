@@ -18,9 +18,8 @@ class Contact extends Component {
     }
 
     handleSubmit(values) {
-        console.log("Current State is: " + JSON.stringify(values));
-        alert("Current State is: " + JSON.stringify(values));
-        this.props.resetFeedbackForm()
+        this.props.resetFeedbackForm();
+        this.props.postFeedback(values);
     }
 
     render() {
@@ -163,7 +162,7 @@ class Contact extends Component {
                                     </Button>
                                 </Col>
                             </Row>
-                        </Form>
+                        </Form >
                     </div>
                 </div>
             </div>

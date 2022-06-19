@@ -1,31 +1,64 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
+import { Fade, Stagger } from 'react-animation-components';
 
 function RenderLeader({ leader }) {
     return (
-        <Media tag="li">
-            <Media left>
-                <Media object src={leader.image} alt={leader.name}></Media>
+        <Fade in>
+            <Media tag="li">
+                <Media left>
+                    <Media object src={baseUrl + leader.image} alt={leader.name}></Media>
+                </Media>
+                <Media body className="ml-5">
+                    <Media heading>{leader.name}</Media>
+                    <h6 className='mt-3'>{leader.designation}</h6>
+                    <p className='mt-3'>{leader.description}</p>
+                </Media>
             </Media>
-            <Media body className="ml-5">
-                <Media heading>{leader.name}</Media>
-                <h6 className='mt-3'>{leader.designation}</h6>
-                <p className='mt-3'>{leader.description}</p>
-            </Media>
-        </Media>
+        </Fade>
     );
 }
 
 function About(props) {
 
-    const leaders = props.leaders.map((leader) => {
+    const leaders = props.leaders.leaders.map((leader) => {
         return (
             <div className="col-12 m-1">
-                <RenderLeader leader={leader} />
+                <Stagger in>
+                    <RenderLeader leader={leader} />
+                </Stagger>
             </div>
         );
     });
+
+    var renderBlock;
+
+    if (props.leaders.isLoading) {
+        renderBlock = (
+            <div className="col-12">
+                <Loading />
+            </div>)
+    }
+
+    else if (props.leaders.errMess) {
+        renderBlock = (
+            <div className="col-12">
+                <h4>{props.leaders.errMess}</h4>
+            </div>
+        );
+    }
+
+    else {
+        renderBlock = (
+            <div className="col-12">
+                <Media list>
+                    {leaders}
+                </Media>
+            </div>)
+    }
 
     return(
         <div className="container">
@@ -81,11 +114,7 @@ function About(props) {
                 <div className="col-12">
                     <h2>Corporate Leadership</h2>
                 </div>
-                <div className="col-12">
-                    <Media list>
-                        {leaders}
-                    </Media>
-                </div>
+                {renderBlock}
             </div>
         </div>
     );
