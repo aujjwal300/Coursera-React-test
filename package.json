@@ -2,6 +2,7 @@
   "name": "confusion",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "http://aujjwal300.github.io/Coursera-React-test",
   "dependencies": {
     "bootstrap": "^4.6.1",
     "bootstrap-social": "5.1.1",
